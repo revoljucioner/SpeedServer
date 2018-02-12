@@ -33,8 +33,8 @@ namespace SpeedServerApi.Controllers
                 return BadRequest();
             }
 
-            _context.SpeedModels.Add(item);
-            _context.SaveChanges();
+            //_context.SpeedModels.Add(item);
+            //_context.SaveChanges();
 
             //return CreatedAtRoute("GetTodo", new { id = item.Id }, item);
             //
