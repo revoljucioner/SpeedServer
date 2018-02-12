@@ -7,23 +7,17 @@
         //public bool IsComplete { get; set; }
         //public int latitude { get; set; }
         public SnappedPoint[] snappedPoints { get; set; }
+    }
+    public class SnappedPoint
+    {
+        public Location Location { get; set; }
+        public int originalIndex { get; set; }
+        public string placeId { get; set; }
+    }
 
-
-        /// <summary>
-        /// private classes for SpeedModel's fields 
-        /// </summary>
-
-        public class SnappedPoint
-        {
-            public Location Location { get; set; }
-            public int originalIndex { get; set; }
-            public string placeId { get; set; }
-        }
-
-        public class Location
-        {
-            public double latitude { get; set; }
-            public double longitude { get; set; }
-        }
+    public class Location
+    {
+        public double latitude { get; set; }
+        public double longitude { get; set; }
     }
 }
