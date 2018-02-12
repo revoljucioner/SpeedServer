@@ -9,7 +9,7 @@ namespace SpeedServerApi.Models
         {
         }
 
-        public DbSet<SpeedModel> SpeedModels { get; set; }
+        //public DbSet<SpeedModel> SpeedModels { get; set; }
 
     }
 }

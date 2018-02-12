@@ -16,13 +16,13 @@ namespace SpeedServerApi.Controllers
 
         public SpeedServerController(SpeedServerContext context)
         {
-            _context = context;
+            //_context = context;
 
-            if (_context.SpeedModels.Count() == 0)
-            {
-                _context.SpeedModels.Add(new SpeedModel { Name = "Item1" });
-                _context.SaveChanges();
-            }
+            //if (_context.SpeedModels.Count() == 0)
+            //{
+            //    _context.SpeedModels.Add(new SpeedModel { Name = "Item1" });
+            //    _context.SaveChanges();
+            //}
         }
 
         [HttpPost]
@@ -38,7 +38,11 @@ namespace SpeedServerApi.Controllers
 
             //return CreatedAtRoute("GetTodo", new { id = item.Id }, item);
             //
-            item.latitude = 5;
+            //item.latitude = 5;
+            foreach (var snappedPoint in item.snappedPoints)
+            {
+                snappedPoint.originalIndex = 10;
+            }
             return new ObjectResult(item);
         }
     }
