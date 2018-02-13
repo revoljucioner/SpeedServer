@@ -7,17 +7,15 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using SpeedServerApi.Models;
 using Newtonsoft.Json;
-//using System.Web.Script.Serialization.JavaScriptSerializer;
 
 namespace Speed_Server.Controllers
 {
     public static class GoogleAPI
     {
         private static string GoogleRoadsAPIKey { get; } = "AIzaSyDWhsEa4PkUPwfxQIpMPsPid0rmPXYFdPM";
-        private static string url { get; } = "https://roads.googleapis.com/v1/snapToRoads?path=";
-        private static bool interpolate { get; } = true;
+        private static string urlRoadsAPI { get; } = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
         private static HttpClient client = new HttpClient();
-        public static SpeedModel GetFullSpeedModel(Location[] locations)
+        public static SpeedModel GetFullSpeedModel(Location[] locations, bool interpolate)
         {
             List<string> locationsList = new List<string>();
 
@@ -28,7 +26,7 @@ namespace Speed_Server.Controllers
 
             string locationsString = String.Join("|", locationsList);
 
-            string urlRequest = url + locationsString + "&interpolate=" + interpolate + "&key=" + GoogleRoadsAPIKey;
+            string urlRequest = String.Format(urlRoadsAPI, locationsString, interpolate, GoogleRoadsAPIKey);
 
             WebRequest request = WebRequest.Create(urlRequest);
             WebResponse response = request.GetResponse();
