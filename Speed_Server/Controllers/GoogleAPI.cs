@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using SpeedServerApi.Models;
 using Newtonsoft.Json;
+using Speed_Server.Models;
 
 namespace Speed_Server.Controllers
 {

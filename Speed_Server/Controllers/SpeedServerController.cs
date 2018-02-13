@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using SpeedServerApi.Models;
 using Speed_Server.Controllers;
 using Newtonsoft.Json;
+using Speed_Server.Models;
 
 namespace SpeedServerApi.Controllers
 {
