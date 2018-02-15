@@ -55,15 +55,15 @@ namespace SpeedServerApi.Controllers
                 return BadRequest();
             }
 
-            try
-            {
+            //try
+            //{
                 SpeedModel fullSpeedModel = GoogleAPI.GetFullSpeedModel(locations, false);
                 return new ObjectResult(fullSpeedModel);
-            }
-            catch (Exception e)
-            {
-                return BadRequest();
-            }         
+            //}
+            //catch (Exception e)
+            //{
+            //    return BadRequest();
+            //}         
         }
     }
 }

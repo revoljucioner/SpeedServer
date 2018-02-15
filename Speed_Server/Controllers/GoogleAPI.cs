@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using SpeedServerApi.Models;
 using Newtonsoft.Json;
@@ -13,22 +15,45 @@ namespace Speed_Server.Controllers
 {
     public static class GoogleAPI
     {
+        private const int limitPointPerQuery = 3;
         private static string GoogleRoadsAPIKey { get; } = "AIzaSyDWhsEa4PkUPwfxQIpMPsPid0rmPXYFdPM";
         private static string urlRoadsAPI { get; } = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
         private static HttpClient client = new HttpClient();
         public static SpeedModel GetFullSpeedModel(Location[] locations, bool interpolate)
         {
-            List<string> locationsList = new List<string>();
-
-            foreach (var el in locations)
+            //
+            var groupedLocationByQuery = locations.Select((i, index) => new
             {
-                locationsList.Add(el.ToString());
+                i,
+                index
+            }).GroupBy(grouped => grouped.index / limitPointPerQuery, location => location.i);
+
+            //
+            List<SpeedModel> speedModelList = new List<SpeedModel>();
+            //
+
+            foreach (var locationGroup in groupedLocationByQuery)
+            {
+                var query = MadeQuery(locationGroup, interpolate);
+                var responseFromServer = ExecuteQuery(query);
+                SpeedModel speedModel = JsonConvert.DeserializeObject<SpeedModel>(responseFromServer);
+                speedModelList.Add(speedModel);
             }
 
-            string locationsString = String.Join("|", locationsList);
+            var compliteSpeedModel = new SpeedModel(speedModelList);
 
+            return compliteSpeedModel;
+        }
+
+        private static string MadeQuery(System.Linq.IGrouping<int, Speed_Server.Models.Location> locations, bool interpolate)
+        {
+            string locationsString = String.Join("|", locations);
             string urlRequest = String.Format(urlRoadsAPI, locationsString, interpolate, GoogleRoadsAPIKey);
-
+            return urlRequest;
+        }
+  
+        private static string ExecuteQuery(string urlRequest)
+        {
             WebRequest request = WebRequest.Create(urlRequest);
             WebResponse response = request.GetResponse();
             Stream data = response.GetResponseStream();
@@ -38,9 +63,7 @@ namespace Speed_Server.Controllers
 
             response.Close();
 
-            SpeedModel speedModel = JsonConvert.DeserializeObject<SpeedModel>(responseFromServer);
-
-            return speedModel;
+            return responseFromServer;
         }
 
     }
