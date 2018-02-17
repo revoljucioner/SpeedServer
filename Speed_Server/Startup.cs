@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SpeedServerApi.Models;
+using System;
+using System.Globalization;
+using System.Threading;
 
 namespace SpeedServerApi
 {
@@ -15,6 +18,7 @@ namespace SpeedServerApi
 
         public void Configure(IApplicationBuilder app)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
             app.UseMvc();
         }
     }

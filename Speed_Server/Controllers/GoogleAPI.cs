@@ -19,23 +19,16 @@ namespace Speed_Server.Controllers
         private static string GoogleRoadsAPIKey { get; } = "AIzaSyDWhsEa4PkUPwfxQIpMPsPid0rmPXYFdPM";
         private static string urlRoadsAPI { get; } = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
         private static HttpClient client = new HttpClient();
+
         public static SpeedModel GetFullSpeedModel(Location[] locations, bool interpolate)
         {
-            //
-            var groupedLocationByQuery = locations.Select((i, index) => new
-            {
-                i,
-                index
-            }).GroupBy(grouped => grouped.index / limitPointPerQuery, location => location.i);
-
-            //
+            var groupedLocationByQuery = GroupLocationByQuery(locations);
             List<SpeedModel> speedModelList = new List<SpeedModel>();
-            //
 
             foreach (var locationGroup in groupedLocationByQuery)
             {
-                var query = MadeQuery(locationGroup, interpolate);
-                var responseFromServer = ExecuteQuery(query);
+                var urlRequest = MadeUrlRequest(locationGroup, interpolate);
+                var responseFromServer = ExecuteQuery(urlRequest);
                 SpeedModel speedModel = JsonConvert.DeserializeObject<SpeedModel>(responseFromServer);
                 speedModelList.Add(speedModel);
             }
@@ -45,7 +38,7 @@ namespace Speed_Server.Controllers
             return compliteSpeedModel;
         }
 
-        private static string MadeQuery(System.Linq.IGrouping<int, Speed_Server.Models.Location> locations, bool interpolate)
+        private static string MadeUrlRequest(IGrouping<int, Location> locations, bool interpolate)
         {
             string locationsString = String.Join("|", locations);
             string urlRequest = String.Format(urlRoadsAPI, locationsString, interpolate, GoogleRoadsAPIKey);
@@ -66,5 +59,14 @@ namespace Speed_Server.Controllers
             return responseFromServer;
         }
 
+        private static IGrouping<int,Location>[] GroupLocationByQuery(Location[] locations)
+        {
+            var groupedLocationByQuery = locations.Select((i, index) => new
+            {
+                i,
+                index
+            }).GroupBy(grouped => grouped.index / limitPointPerQuery, location => location.i).ToArray();
+            return groupedLocationByQuery;
+        }
     }
 }
