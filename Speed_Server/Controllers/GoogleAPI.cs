@@ -20,11 +20,11 @@ namespace Speed_Server.Controllers
         private static string urlRoadsAPI { get; } = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
         private static HttpClient client = new HttpClient();
 
-        public static SpeedModel GetFullSpeedModel(Location[] locations, bool interpolate)
+        public static SpeedModel GetFullSpeedModel(LocationTime[] locationTimeArray, bool interpolate)
         {
-            var groupedLocationByQuery = GroupLocationByQuery(locations);
+            var groupedLocationByQuery = GroupLocationByQuery(locationTimeArray);
             List<SpeedModel> speedModelList = new List<SpeedModel>();
-
+             
             foreach (var locationGroup in groupedLocationByQuery)
             {
                 var urlRequest = MadeUrlRequest(locationGroup, interpolate);
@@ -68,5 +68,6 @@ namespace Speed_Server.Controllers
             }).GroupBy(grouped => grouped.index / limitPointPerQuery, location => location.i).ToArray();
             return groupedLocationByQuery;
         }
+
     }
 }
