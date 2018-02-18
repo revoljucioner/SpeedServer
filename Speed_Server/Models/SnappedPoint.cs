@@ -2,7 +2,7 @@
 {
     public class SnappedPoint
     {
-        public Location Location { get; set; }
+        public LocationTime Location { get; set; }
         public int originalIndex { get; set; }
         public string placeId { get; set; }
     }
