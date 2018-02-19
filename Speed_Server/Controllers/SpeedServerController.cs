@@ -31,37 +31,6 @@ namespace SpeedServerApi.Controllers
             //}
         }
 
-        //http://localhost:57929/api/SpeedServer
-        // input format of json
-        //[
-        //    { 
-        //        "latitude": -35.2807341,
-        //        "longitude": 149.1291511,
-        //        "time": "2018-02-18T03:36:18.1036604+02:00"
-
-        //   },
-        //    {
-        //       "latitude": -35.2807342,
-        //        "longitude": 149.1291512
-
-        //   },
-        //               {
-        //       "latitude": -35.2807343,
-        //        "longitude": 149.1291513
-
-        //   },
-        //               {
-        //       "latitude": -35.2807344,
-        //        "longitude": 149.1291514
-
-        //   },
-        //               {
-        //       "latitude": -35.280736,
-        //        "longitude": 149.1293
-
-        //   }
-        //]
-        //
         [HttpPost]
         public IActionResult Create([FromBody] LocationTime[] locations)
         {
@@ -73,6 +42,7 @@ namespace SpeedServerApi.Controllers
             //try
             //{
                 SpeedModel fullSpeedModel = GoogleAPI.GetFullSpeedModel(locations, true);
+            //fullSpeedModel.RemoveExtraPoints();
                 return new ObjectResult(fullSpeedModel);
             //}
             //catch (Exception e)

@@ -22,52 +22,8 @@ namespace Speed_Server.Controllers
 
         public static SpeedModel GetFullSpeedModel(LocationTime[] locationTimeArray, bool interpolate)
         {
-            var groupedLocationByQuery = GroupLocationByQuery(locationTimeArray);
-            var groupedTimeByQuery = GroupTimeByQuery(locationTimeArray);
-            //
-            List<SpeedModel> speedModelList = new List<SpeedModel>();
-
-            for (var i = 0; i < groupedLocationByQuery.Length; i++)
-            {
-                var urlRequest = MadeUrlRequest(groupedLocationByQuery[i], interpolate);
-                var responseFromServer = ExecuteQuery(urlRequest);
-                SpeedModel speedModel = JsonConvert.DeserializeObject<SpeedModel>(responseFromServer);
-                int predOriginalElementIndex = 0;
-                for (var j = 1; j < speedModel.snappedPoints.Length; j++)
-                {
-                    var groupOfTimeArray = groupedTimeByQuery[i].ToArray();
-                    speedModel.snappedPoints[0].Location.time = groupOfTimeArray[0];
-
-                    if (speedModel.snappedPoints[j].originalIndex != 0)
-                    {
-                        var raznitsaMezdyOriginalnimiTochkamiVOtvete = j - predOriginalElementIndex;
-                        var raznitsaVoVremeniMezdyOriginalnimiTochkami =
-                            groupOfTimeArray[speedModel.snappedPoints[j].originalIndex] - groupOfTimeArray[speedModel.snappedPoints[predOriginalElementIndex].originalIndex];
-                        var shagVMilisecMezdyTochkami = raznitsaVoVremeniMezdyOriginalnimiTochkami.TotalMilliseconds / raznitsaMezdyOriginalnimiTochkamiVOtvete;
-                        var vremaVoVtoroyTochke = groupOfTimeArray[speedModel.snappedPoints[j].originalIndex];
-                        int schetchik = 0;
-
-                        for (var k = j ; k > predOriginalElementIndex; k--)
-                        {
-                            
-                            speedModel.snappedPoints[k].Location.time =
-                                vremaVoVtoroyTochke.AddMilliseconds(-1 * schetchik * shagVMilisecMezdyTochkami);
-                            schetchik = schetchik + 1;
-                        }
-                        predOriginalElementIndex = j;
-                    }
-                }
-                //}
-                speedModelList.Add(speedModel);
-            }
-            //foreach (var locationGroup in groupedLocationByQuery)
-            //{
-            //    var urlRequest = MadeUrlRequest(locationGroup, interpolate);
-            //    var responseFromServer = ExecuteQuery(urlRequest);
-            //    SpeedModel speedModel = JsonConvert.DeserializeObject<SpeedModel>(responseFromServer);
-            //    speedModelList.Add(speedModel);
-            //}
-
+            List<SpeedModel> speedModelList = ExecuteAllRequest(locationTimeArray,interpolate);
+   
             var compliteSpeedModel = new SpeedModel(speedModelList);
 
             return compliteSpeedModel;
@@ -94,7 +50,7 @@ namespace Speed_Server.Controllers
             return responseFromServer;
         }
 
-        private static IGrouping<int, Location>[] GroupLocationByQuery(Location[] locations)
+        private static IGrouping<int, LocationTime>[] GroupLocationTimeByQuery(LocationTime[] locations)
         {
             var groupedLocationByQuery = locations.Select((i, index) => new
             {
@@ -104,15 +60,46 @@ namespace Speed_Server.Controllers
             return groupedLocationByQuery;
         }
 
-        private static IGrouping<int, DateTime>[] GroupTimeByQuery(LocationTime[] locations)
+        private static List<SpeedModel> ExecuteAllRequest(LocationTime[] locationTimeArray, bool interpolate)
         {
-            var groupedTimeByQuery = locations.Select((i, index) => new
-            {
-                i,
-                index
-            }).GroupBy(grouped => grouped.index / limitPointPerQuery, location => location.i.time).ToArray();
+            var groupedLocationTimeByRequest = GroupLocationTimeByQuery(locationTimeArray);
 
-            return groupedTimeByQuery;
+            List<SpeedModel> speedModelList = new List<SpeedModel>();
+
+            for (var i = 0; i < groupedLocationTimeByRequest.Length; i++)
+            {
+                var urlRequest = MadeUrlRequest(groupedLocationTimeByRequest[i], interpolate);
+                var responseFromServer = ExecuteQuery(urlRequest);
+                SpeedModel speedModel = JsonConvert.DeserializeObject<SpeedModel>(responseFromServer);
+
+                int previousOriginalElementIndex = 0;
+
+                var groupOfTimeArray = groupedLocationTimeByRequest[i].ToArray();
+                speedModel.snappedPoints[0].Location.time = groupOfTimeArray[0].time;
+
+                for (var j = 1; j < speedModel.snappedPoints.Length; j++)
+                {
+                    if (speedModel.snappedPoints[j].originalIndex != 0)
+                    {
+                        var indexDifferenceBetweenOriginalElements = j - previousOriginalElementIndex;
+                        var timeDifferenceBetweenOriginalElements =
+                            groupOfTimeArray[speedModel.snappedPoints[j].originalIndex].time - groupOfTimeArray[speedModel.snappedPoints[previousOriginalElementIndex].originalIndex].time;
+                        var timeDifferenceBetweenNeighborElements = timeDifferenceBetweenOriginalElements.TotalMilliseconds / indexDifferenceBetweenOriginalElements;
+                        var nextOriginalElementTime = groupOfTimeArray[speedModel.snappedPoints[j].originalIndex].time;
+                        int schetchik = 0;
+
+                        for (var k = j; k > previousOriginalElementIndex; k--)
+                        {
+                            speedModel.snappedPoints[k].Location.time =
+                                nextOriginalElementTime.AddMilliseconds(-1 * schetchik * timeDifferenceBetweenNeighborElements);
+                            schetchik = schetchik + 1;
+                        }
+                        previousOriginalElementIndex = j;
+                    }
+                }
+                speedModelList.Add(speedModel);
+            }
+            return speedModelList;
         }
     }
 }
