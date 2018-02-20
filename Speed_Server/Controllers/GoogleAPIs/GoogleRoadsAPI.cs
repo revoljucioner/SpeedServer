@@ -13,58 +13,41 @@ using Speed_Server.Models;
 
 namespace Speed_Server.Controllers
 {
-    public static class GoogleAPI
+    public class GoogleRoadsApi : GoogleApi
     {
-        private const int limitPointPerQuery = 3;
-        private static string GoogleRoadsAPIKey { get; } = "AIzaSyDWhsEa4PkUPwfxQIpMPsPid0rmPXYFdPM";
-        //private static string GoogleEvaluationAPIKey { get; } = "AIzaSyDWwdBTuvd4zy_1iPr_aaOWe5VqVk_vV58";
-        
-        private static string urlRoadsAPI { get; } = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
-        private static HttpClient client = new HttpClient();
-
-        public static SpeedModel GetFullSpeedModel(LocationTime[] locationTimeArray, bool interpolate)
+        public GoogleRoadsApi()
         {
-            List<SpeedModel> speedModelList = ExecuteAllRequest(locationTimeArray,interpolate);
-   
+            limitPointPerQuery = 3;
+            GoogleApiKey = "AIzaSyDWhsEa4PkUPwfxQIpMPsPid0rmPXYFdPM";
+            urlApi = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
+        }
+
+        public GoogleRoadsApi(int limitPointPerQuery)
+        {
+            this.limitPointPerQuery = limitPointPerQuery;
+            GoogleApiKey = "AIzaSyDWhsEa4PkUPwfxQIpMPsPid0rmPXYFdPM";
+            urlApi = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
+        }
+
+        public SpeedModel GetFullSpeedModel(LocationTime[] locationTimeArray, bool interpolate)
+        {
+            List<SpeedModel> speedModelList = ExecuteAllRequest(locationTimeArray, interpolate);
+
             var compliteSpeedModel = new SpeedModel(speedModelList);
 
             return compliteSpeedModel;
         }
 
-        private static string MadeUrlRequest(IGrouping<int, Location> locations, bool interpolate)
+        protected override string MadeUrlRequest(IGrouping<int, Location> locations, bool interpolate)
         {
             string locationsString = String.Join("|", locations);
-            string urlRequest = String.Format(urlRoadsAPI, locationsString, interpolate, GoogleRoadsAPIKey);
+            string urlRequest = String.Format(urlApi, locationsString, interpolate, GoogleApiKey);
             return urlRequest;
         }
 
-        private static string ExecuteQuery(string urlRequest)
+        protected override List<SpeedModel> ExecuteAllRequest(LocationTime[] locationTimeArray, bool interpolate)
         {
-            WebRequest request = WebRequest.Create(urlRequest);
-            WebResponse response = request.GetResponse();
-            Stream data = response.GetResponseStream();
-            StreamReader reader = new StreamReader(data);
-
-            string responseFromServer = reader.ReadToEnd();
-
-            response.Close();
-
-            return responseFromServer;
-        }
-
-        private static IGrouping<int, LocationTime>[] GroupLocationTimeByQuery(LocationTime[] locations)
-        {
-            var groupedLocationByQuery = locations.Select((i, index) => new
-            {
-                i,
-                index
-            }).GroupBy(grouped => grouped.index / limitPointPerQuery, location => location.i).ToArray();
-            return groupedLocationByQuery;
-        }
-
-        private static List<SpeedModel> ExecuteAllRequest(LocationTime[] locationTimeArray, bool interpolate)
-        {
-            var groupedLocationTimeByRequest = GroupLocationTimeByQuery(locationTimeArray);
+            var groupedLocationTimeByRequest = GroupLocationTimeArrayByQuery(locationTimeArray);
 
             List<SpeedModel> speedModelList = new List<SpeedModel>();
 
