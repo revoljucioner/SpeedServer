@@ -4,6 +4,7 @@
     {
         public double latitude { get; set; }
         public double longitude { get; set; }
+        public double elevation { get; set; }
 
         public override string ToString()
         {

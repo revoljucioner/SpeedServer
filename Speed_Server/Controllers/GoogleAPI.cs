@@ -17,6 +17,8 @@ namespace Speed_Server.Controllers
     {
         private const int limitPointPerQuery = 3;
         private static string GoogleRoadsAPIKey { get; } = "AIzaSyDWhsEa4PkUPwfxQIpMPsPid0rmPXYFdPM";
+        //private static string GoogleEvaluationAPIKey { get; } = "AIzaSyDWwdBTuvd4zy_1iPr_aaOWe5VqVk_vV58";
+        
         private static string urlRoadsAPI { get; } = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
         private static HttpClient client = new HttpClient();
 
