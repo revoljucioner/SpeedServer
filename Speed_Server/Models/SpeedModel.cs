@@ -13,6 +13,18 @@ namespace SpeedServerApi.Models
         {
         }
 
+        public SpeedModel(LocationTime[] locations)
+        {
+            List<SnappedPoint> snappedPointsList = new List<SnappedPoint>();
+
+            foreach (var location in locations)
+            {
+                snappedPointsList.Add(new SnappedPoint(location));
+            }
+
+            this.snappedPoints = snappedPointsList.ToArray();
+        }
+
         public SpeedModel(List<SpeedModel> speedModelList)
         {
             List<SnappedPoint> snappedPointsList = new List<SnappedPoint>();

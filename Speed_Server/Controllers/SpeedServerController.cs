@@ -21,11 +21,13 @@ namespace SpeedServerApi.Controllers
         private readonly SpeedServerContext _context;
         private static HttpClient client = new HttpClient();
         private readonly GoogleRoadsApi _googleRoadsApi;
+        private readonly GoogleEvaluationApi _googleEvaluationApi;
         public SpeedServerController(SpeedServerContext context)
         {
             _googleRoadsApi = new GoogleRoadsApi();
+            _googleEvaluationApi = new GoogleEvaluationApi();
             //_context = context;
-             
+
             //if (_context.SpeedModels.Count() == 0)
             //{
             //    _context.SpeedModels.Add(new SpeedModel { Name = "Item1" });
@@ -39,14 +41,16 @@ namespace SpeedServerApi.Controllers
             if (locations == null)
             {
                 return BadRequest();
-                     //return StatusCode(418);
+                //return StatusCode(418);
             }
             //try
             //{
-            
-                SpeedModel fullSpeedModel = _googleRoadsApi.FillSpeedModel(locations, true);
+            SpeedModel speedModel = new SpeedModel(locations);
+
+            SpeedModel speedModelWithRoads = _googleRoadsApi.FillSpeedModel(speedModel, true);
+            SpeedModel speedModelWithRoadsAndEvaluations = _googleEvaluationApi.FillSpeedModel(speedModelWithRoads);
             //fullSpeedModel.RemoveExtraPoints();
-                return new ObjectResult(fullSpeedModel);
+            return new ObjectResult(speedModelWithRoadsAndEvaluations);
             //}
             //catch (Exception e)
             //{

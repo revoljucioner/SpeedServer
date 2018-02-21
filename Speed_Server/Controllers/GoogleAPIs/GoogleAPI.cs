@@ -19,15 +19,6 @@ namespace Speed_Server.Controllers
         protected string GoogleApiKey { get; set; }
         protected string urlApi { get; set; }
 
-        public SpeedModel FillSpeedModel(LocationTime[] locationTimeArray, bool interpolate)
-        {
-            List<SpeedModel> speedModelList = ExecuteAllRequest(locationTimeArray,interpolate);
-   
-            var compliteSpeedModel = new SpeedModel(speedModelList);
-
-            return compliteSpeedModel;
-        }
-
         protected string ExecuteQuery(string urlRequest)
         {
             WebRequest request = WebRequest.Create(urlRequest);
@@ -51,8 +42,5 @@ namespace Speed_Server.Controllers
             }).GroupBy(grouped => grouped.index / limitPointPerQuery, location => location.i).ToArray();
             return groupedLocationByQuery;
         }
-
-        protected abstract List<SpeedModel> ExecuteAllRequest(LocationTime[] locationTimeArray, bool interpolate);
-        protected abstract string MadeUrlRequest(IGrouping<int, Location> locations, bool interpolate);
     }
 }

@@ -29,26 +29,28 @@ namespace Speed_Server.Controllers
             urlApi = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
         }
 
-        public SpeedModel GetFullSpeedModel(LocationTime[] locationTimeArray, bool interpolate)
+        public SpeedModel FillSpeedModel(SpeedModel speedModel, bool interpolate)
         {
-            List<SpeedModel> speedModelList = ExecuteAllRequest(locationTimeArray, interpolate);
+            LocationTime[] locationTimeArray = speedModel.snappedPoints.Select(i => i.Location).ToArray();
+
+            var groupedLocationTimeByRequest = GroupLocationTimeArrayByQuery(locationTimeArray);
+
+            List<SpeedModel> speedModelList = ExecuteAllRequest(groupedLocationTimeByRequest, interpolate);
 
             var compliteSpeedModel = new SpeedModel(speedModelList);
 
             return compliteSpeedModel;
         }
 
-        protected override string MadeUrlRequest(IGrouping<int, Location> locations, bool interpolate)
+        private string MadeUrlRequest(IGrouping<int, Location> locations, bool interpolate)
         {
             string locationsString = String.Join("|", locations);
             string urlRequest = String.Format(urlApi, locationsString, interpolate, GoogleApiKey);
             return urlRequest;
         }
 
-        protected override List<SpeedModel> ExecuteAllRequest(LocationTime[] locationTimeArray, bool interpolate)
+        private List<SpeedModel> ExecuteAllRequest(IGrouping<int, LocationTime>[] groupedLocationTimeByRequest, bool interpolate)
         {
-            var groupedLocationTimeByRequest = GroupLocationTimeArrayByQuery(locationTimeArray);
-
             List<SpeedModel> speedModelList = new List<SpeedModel>();
 
             for (var i = 0; i < groupedLocationTimeByRequest.Length; i++)

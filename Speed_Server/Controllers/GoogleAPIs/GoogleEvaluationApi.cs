@@ -18,70 +18,50 @@ namespace Speed_Server.Controllers
         public GoogleEvaluationApi()
         {
             limitPointPerQuery = 3;
-            GoogleApiKey = "";
-            urlApi = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
+            GoogleApiKey = "AIzaSyC2FZl6lpRYmLqLPB6py-fd_Q9Q6C6AIiQ";
+            urlApi = "https://maps.googleapis.com/maps/api/elevation/json?locations={0}&key={1}";
         }
 
         public GoogleEvaluationApi(int limitPointPerQuery)
         {
             this.limitPointPerQuery = limitPointPerQuery;
-            GoogleApiKey = "";
-            urlApi = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
+            GoogleApiKey = "AIzaSyC2FZl6lpRYmLqLPB6py-fd_Q9Q6C6AIiQ";
+            urlApi = "https://maps.googleapis.com/maps/api/elevation/json?locations={0}&key={1}";
         }
 
-        public SpeedModel GetFullSpeedModel(LocationTime[] locationTimeArray, bool interpolate)
+        public SpeedModel FillSpeedModel(SpeedModel speedModel)
         {
-            List<SpeedModel> speedModelList = ExecuteAllRequest(locationTimeArray, interpolate);
+            LocationTime[] locationTimeArray = speedModel.snappedPoints.Select(i => i.Location).ToArray();
 
-            var compliteSpeedModel = new SpeedModel(speedModelList);
+            var groupedLocationTimeByRequest = GroupLocationTimeArrayByQuery(locationTimeArray);
 
-            return compliteSpeedModel;
+            List<GoogleElevationResponse> googleElevationResponseList = ExecuteAllRequest(groupedLocationTimeByRequest);
+
+            var compliteGoogleElevationResponse = new GoogleElevationResponse(googleElevationResponseList);
+            speedModel.FillElevation(compliteGoogleElevationResponse);
+
+            return speedModel;
         }
 
-        protected override string MadeUrlRequest(IGrouping<int, Location> locations, bool interpolate)
+        private string MadeUrlRequest(IGrouping<int, Location> locations)
         {
             string locationsString = String.Join("|", locations);
-            string urlRequest = String.Format(urlApi, locationsString, interpolate, GoogleApiKey);
+            string urlRequest = String.Format(urlApi, locationsString, GoogleApiKey);
             return urlRequest;
         }
 
-        protected override List<SpeedModel> ExecuteAllRequest(LocationTime[] locationTimeArray, bool interpolate)
+        private List<GoogleElevationResponse> ExecuteAllRequest(IGrouping<int, LocationTime>[] groupedLocationTimeByRequest)
         {
-            var groupedLocationTimeByRequest = GroupLocationTimeArrayByQuery(locationTimeArray);
-
-            List<SpeedModel> speedModelList = new List<SpeedModel>();
+            List<GoogleElevationResponse> speedModelList = new List<GoogleElevationResponse>();
 
             for (var i = 0; i < groupedLocationTimeByRequest.Length; i++)
             {
-                var urlRequest = MadeUrlRequest(groupedLocationTimeByRequest[i], interpolate);
+                var urlRequest = MadeUrlRequest(groupedLocationTimeByRequest[i]);
                 var responseFromServer = ExecuteQuery(urlRequest);
-                SpeedModel speedModel = JsonConvert.DeserializeObject<SpeedModel>(responseFromServer);
-
-                int previousOriginalElementIndex = 0;
-
-                var groupOfTimeArray = groupedLocationTimeByRequest[i].ToArray();
-                speedModel.snappedPoints[0].Location.time = groupOfTimeArray[0].time;
-
-                for (var j = 1; j < speedModel.snappedPoints.Length; j++)
-                {
-                    if (speedModel.snappedPoints[j].originalIndex != 0)
-                    {
-                        var indexDifferenceBetweenOriginalElements = j - previousOriginalElementIndex;
-                        var timeDifferenceBetweenOriginalElements =
-                            groupOfTimeArray[speedModel.snappedPoints[j].originalIndex].time - groupOfTimeArray[speedModel.snappedPoints[previousOriginalElementIndex].originalIndex].time;
-                        var timeDifferenceBetweenNeighborElements = timeDifferenceBetweenOriginalElements.TotalMilliseconds / indexDifferenceBetweenOriginalElements;
-                        var nextOriginalElementTime = groupOfTimeArray[speedModel.snappedPoints[j].originalIndex].time;
-                        int schetchik = 0;
-
-                        for (var k = j; k > previousOriginalElementIndex; k--)
-                        {
-                            speedModel.snappedPoints[k].Location.time =
-                                nextOriginalElementTime.AddMilliseconds(-1 * schetchik * timeDifferenceBetweenNeighborElements);
-                            schetchik = schetchik + 1;
-                        }
-                        previousOriginalElementIndex = j;
-                    }
-                }
+                //
+                responseFromServer.Replace("lat", "latitude").Replace("lng", "longitude");
+                //
+                GoogleElevationResponse speedModel = JsonConvert.DeserializeObject<GoogleElevationResponse>(responseFromServer);                
                 speedModelList.Add(speedModel);
             }
             return speedModelList;
