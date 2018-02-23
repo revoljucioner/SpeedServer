@@ -31,7 +31,9 @@ namespace Speed_Server.Controllers
 
         public SpeedModel FillSpeedModel(SpeedModel speedModel, bool interpolate)
         {
-            LocationTime[] locationTimeArray = speedModel.snappedPoints.Select(i => i.Location).ToArray();
+            //var locationTime = speedModel.snappedPoints.Select(x => new { x.Location, x.time }).ToArray();
+
+            LocationTime[] locationTimeArray = PullLocationTimeArrayFromSpeedModel(speedModel);
 
             var groupedLocationTimeByRequest = GroupLocationTimeArrayByQuery(locationTimeArray);
 
@@ -57,12 +59,14 @@ namespace Speed_Server.Controllers
             {
                 var urlRequest = MadeUrlRequest(groupedLocationTimeByRequest[i], interpolate);
                 var responseFromServer = ExecuteQuery(urlRequest);
-                SpeedModel speedModel = JsonConvert.DeserializeObject<SpeedModel>(responseFromServer);
+                GoogleRoadResponse googleRoadResponse = JsonConvert.DeserializeObject<GoogleRoadResponse>(responseFromServer);
+
+                SpeedModel speedModel = new SpeedModel(googleRoadResponse.snappedPoints);
 
                 int previousOriginalElementIndex = 0;
 
                 var groupOfTimeArray = groupedLocationTimeByRequest[i].ToArray();
-                speedModel.snappedPoints[0].Location.time = groupOfTimeArray[0].time;
+                speedModel.snappedPoints[0].time = groupOfTimeArray[0].time;
 
                 for (var j = 1; j < speedModel.snappedPoints.Length; j++)
                 {
@@ -77,7 +81,7 @@ namespace Speed_Server.Controllers
 
                         for (var k = j; k > previousOriginalElementIndex; k--)
                         {
-                            speedModel.snappedPoints[k].Location.time =
+                            speedModel.snappedPoints[k].time =
                                 nextOriginalElementTime.AddMilliseconds(-1 * schetchik * timeDifferenceBetweenNeighborElements);
                             schetchik = schetchik + 1;
                         }

@@ -31,16 +31,17 @@ namespace Speed_Server.Controllers
 
         public SpeedModel FillSpeedModel(SpeedModel speedModel)
         {
-            LocationTime[] locationTimeArray = speedModel.snappedPoints.Select(i => i.Location).ToArray();
+            //var locationTime = speedModel.snappedPoints.Select(x => new { x.Location, x.time }).ToArray();
+
+            LocationTime[] locationTimeArray = PullLocationTimeArrayFromSpeedModel(speedModel);
 
             var groupedLocationTimeByRequest = GroupLocationTimeArrayByQuery(locationTimeArray);
 
-            List<GoogleElevationResponse> googleElevationResponseList = ExecuteAllRequest(groupedLocationTimeByRequest);
+            List<SpeedModel> speedModelList = ExecuteAllRequest(groupedLocationTimeByRequest);
 
-            var compliteGoogleElevationResponse = new GoogleElevationResponse(googleElevationResponseList);
-            speedModel.FillElevation(compliteGoogleElevationResponse);
+            var compliteSpeedModel = new SpeedModel(speedModelList);
 
-            return speedModel;
+            return compliteSpeedModel;
         }
 
         private string MadeUrlRequest(IGrouping<int, Location> locations)
@@ -50,18 +51,24 @@ namespace Speed_Server.Controllers
             return urlRequest;
         }
 
-        private List<GoogleElevationResponse> ExecuteAllRequest(IGrouping<int, LocationTime>[] groupedLocationTimeByRequest)
+        private List<SpeedModel> ExecuteAllRequest(IGrouping<int, LocationTime>[] groupedLocationTimeByRequest)
         {
-            List<GoogleElevationResponse> speedModelList = new List<GoogleElevationResponse>();
+            List<SpeedModel> speedModelList = new List<SpeedModel>();
 
             for (var i = 0; i < groupedLocationTimeByRequest.Length; i++)
             {
                 var urlRequest = MadeUrlRequest(groupedLocationTimeByRequest[i]);
                 var responseFromServer = ExecuteQuery(urlRequest);
                 //
-                responseFromServer.Replace("lat", "latitude").Replace("lng", "longitude");
+                var responseFromServerModelFrom = responseFromServer.Replace("lat", "latitude").Replace("lng", "longitude");
                 //
-                GoogleElevationResponse speedModel = JsonConvert.DeserializeObject<GoogleElevationResponse>(responseFromServer);                
+                GoogleElevationResponse googleElevationResponse = JsonConvert.DeserializeObject<GoogleElevationResponse>(responseFromServerModelFrom);
+                //foreach (var googleResponsePointElevation in googleElevationResponse.results)
+                //{
+                //    var speedModel = new SpeedModel(googleResponsePointElevation);
+                //    speedModelList.Add(speedModel);
+                //}
+                var speedModel = new SpeedModel(googleElevationResponse.results);
                 speedModelList.Add(speedModel);
             }
             return speedModelList;

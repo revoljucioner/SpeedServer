@@ -4,7 +4,16 @@
     {
         public double latitude { get; set; }
         public double longitude { get; set; }
-        public double elevation { get; set; }
+
+        //public Location()
+        //{
+        //}
+
+        //public Location(double latitude, double longitude)
+        //{
+        //    this.latitude = latitude;
+        //    this.longitude = longitude;
+        //}
 
         public override string ToString()
         {

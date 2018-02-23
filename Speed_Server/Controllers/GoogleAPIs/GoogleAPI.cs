@@ -42,5 +42,11 @@ namespace Speed_Server.Controllers
             }).GroupBy(grouped => grouped.index / limitPointPerQuery, location => location.i).ToArray();
             return groupedLocationByQuery;
         }
+
+        protected LocationTime[] PullLocationTimeArrayFromSpeedModel(SpeedModel speedModel)
+        {
+            LocationTime[] locationTimeArray = speedModel.snappedPoints.Select(x => new LocationTime(x.Location, x.time)).ToArray();
+            return locationTimeArray;
+        }
     }
 }

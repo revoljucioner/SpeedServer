@@ -7,27 +7,53 @@ namespace SpeedServerApi.Models
     public class SpeedModel
     {
         private double EarthRadius = 6371.009;
-        public SnappedPoint[] snappedPoints { get; set; }
+        public SnappedPointResponse[] snappedPoints { get; set; }
 
         public SpeedModel()
         {
         }
 
-        public SpeedModel(LocationTime[] locations)
+        public SpeedModel(SnappedPointRequest[] snappedPointsRequests)
         {
-            List<SnappedPoint> snappedPointsList = new List<SnappedPoint>();
+            List<SnappedPointResponse> snappedPointResponseList = new List<SnappedPointResponse>();
 
-            foreach (var location in locations)
+            foreach (var snappedPointRequest in snappedPointsRequests)
             {
-                snappedPointsList.Add(new SnappedPoint(location));
+                snappedPointResponseList.Add(new SnappedPointResponse(snappedPointRequest));
             }
 
-            this.snappedPoints = snappedPointsList.ToArray();
+            this.snappedPoints = snappedPointResponseList.ToArray();
         }
+
+
+        public SpeedModel(SnappedPointRoad[] snappedPointsRoad)
+        {
+            List<SnappedPointResponse> snappedPointsRoadList = new List<SnappedPointResponse>();
+
+            foreach (var snappedPointRoad in snappedPointsRoad)
+            {
+                snappedPointsRoadList.Add(new SnappedPointResponse(snappedPointRoad));
+            }
+
+            this.snappedPoints = snappedPointsRoadList.ToArray();
+        }
+
+        public SpeedModel(SnappedPointElevation[] snappedPointsElevation)
+        {
+            List<SnappedPointResponse> snappedPointsRoadList = new List<SnappedPointResponse>();
+
+            foreach (var snappedPointElevation in snappedPointsElevation)
+            {
+                snappedPointsRoadList.Add(new SnappedPointResponse(snappedPointElevation));
+            }
+
+            this.snappedPoints = snappedPointsRoadList.ToArray();
+        }
+
 
         public SpeedModel(List<SpeedModel> speedModelList)
         {
-            List<SnappedPoint> snappedPointsList = new List<SnappedPoint>();
+            List<SnappedPointResponse> snappedPointsList = new List<SnappedPointResponse>();
 
             foreach (var speedModel in speedModelList)
             {
@@ -116,7 +142,8 @@ namespace SpeedServerApi.Models
 
         private LocationTime LocationByIndex(int i)
         {
-            return snappedPoints[i].Location;
+            LocationTime locationTime = new LocationTime(snappedPoints[i].Location, snappedPoints[i].time);
+            return locationTime;
         }
     }
 }
