@@ -13,6 +13,141 @@ namespace SpeedServerApi.Models
         {
         }
 
+        public SpeedModel(SpeedModel standartModel, SpeedModel additionModle)
+        {
+            List<SnappedPointResponse> listPoints=new List<SnappedPointResponse>();
+
+            var standartSnappedPoints = standartModel.snappedPoints;
+            var additionSnappedPoints = additionModle.snappedPoints;
+
+            if (standartSnappedPoints.Length != additionSnappedPoints.Length)
+            {
+                throw new Exception("разная длинна дополняеміх моделей");
+            }
+
+            for (var i=0;i<standartSnappedPoints.Length;i++)
+            {
+                var standartPoint = standartSnappedPoints[i];
+                var additionPoint = additionSnappedPoints[i];
+
+                var newPoint = new SnappedPointResponse();
+                var newLocation = new LocationWithElevation();
+                // долгота
+                if (standartPoint.Location.longitude != additionPoint.Location.longitude)
+                {
+                    if ((standartPoint.Location.longitude != null) && (additionPoint.Location.longitude == null))
+                    {
+                        newLocation.longitude = standartPoint.Location.longitude;
+                    }
+                    else if ((standartPoint.Location.longitude == null) && (additionPoint.Location.longitude != null))
+                    {
+                        newLocation.longitude = additionPoint.Location.longitude;
+                    }
+                    else
+                    {
+                        newLocation.longitude = additionPoint.Location.longitude;
+                    }
+                }
+                else
+                {
+                    newLocation.longitude = standartPoint.Location.longitude;
+                }
+                // широта
+                if (standartPoint.Location.latitude != additionPoint.Location.latitude)
+                {
+                    if ((standartPoint.Location.latitude != null) && (additionPoint.Location.latitude == null))
+                    {
+                        newLocation.latitude = standartPoint.Location.latitude;
+                    }
+                    else if ((standartPoint.Location.latitude == null) && (additionPoint.Location.latitude != null))
+                    {
+                        newLocation.latitude = additionPoint.Location.latitude;
+                    }
+                    else
+                    {
+                        newLocation.latitude = additionPoint.Location.latitude;
+                    }
+                }
+                else
+                {
+                    newLocation.latitude = standartPoint.Location.latitude;
+                }
+                // высота
+
+                if (standartPoint.Location.elevation != additionPoint.Location.elevation)
+                {
+                    if ((standartPoint.Location.elevation != null) && (additionPoint.Location.elevation == null))
+                    {
+                        newLocation.elevation = standartPoint.Location.elevation;
+                    }
+                    else if ((standartPoint.Location.elevation == null) && (additionPoint.Location.elevation != null))
+                    {
+                        newLocation.elevation = additionPoint.Location.elevation; 
+                    }
+                    else
+                    {
+                        throw new Exception("Обе модели не могут иметь заполненное значение?");
+                    }
+                }
+                else
+                {
+                    newLocation.elevation = standartPoint.Location.elevation; 
+                }
+
+
+                // время
+
+                if (standartPoint.time!= additionPoint.time)
+                {
+                    if ((standartPoint.time != null)&&(additionPoint.time==null))
+                    {
+                        newPoint.time = standartPoint.time;
+                    }
+                    else if ((standartPoint.time == null) && (additionPoint.time != null))
+                    {
+                        newPoint.time = additionPoint.time;
+                    }
+                    else
+                    {
+                        throw new Exception("Обе модели не могут иметь заполненное время?");
+                    }
+                }
+                else
+                {
+                    newPoint.time = standartPoint.time;
+                }
+
+                //placeID
+                if (standartPoint.placeId != additionPoint.placeId)
+                {
+                    if ((standartPoint.placeId != null) && (additionPoint.placeId == null))
+                    {
+                        newPoint.placeId = standartPoint.placeId;
+                    }
+                    else if ((standartPoint.placeId == null) && (additionPoint.placeId != null))
+                    {
+                        newPoint.placeId = additionPoint.placeId;
+                    }
+                    else
+                    {
+                        throw new Exception("Обе модели не могут иметь заполненное время?");
+                    }
+                }
+                else
+                {
+                    newPoint.placeId = standartPoint.placeId;
+                }
+
+                // назначим точке эту локацию 
+
+                newPoint.Location = newLocation;
+                //добавим точку в лист
+                listPoints.Add(newPoint);
+            }
+
+            this.snappedPoints = listPoints.ToArray();
+        }
+
         public SpeedModel(SnappedPointRequest[] snappedPointsRequests)
         {
             List<SnappedPointResponse> snappedPointResponseList = new List<SnappedPointResponse>();
