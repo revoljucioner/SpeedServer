@@ -29,6 +29,8 @@ namespace Speed_Server.Models
         {
             //this.Location = (LocationWithElevation)snappedPointRoad.Location;
             this.Location = new LocationWithElevation(snappedPointRoad.Location);
+            this.originalIndex = snappedPointRoad.originalIndex;
+            this.placeId = snappedPointRoad.placeId;
 
         }
         public SnappedPointResponse(SnappedPointElevation snappedPointElevation)

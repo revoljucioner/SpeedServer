@@ -39,8 +39,7 @@ namespace Speed_Server.Controllers
 
             List<SpeedModel> speedModelList = ExecuteAllRequest(groupedLocationTimeByRequest, interpolate);
 
-            var roadSpeedModel = new SpeedModel(speedModelList);
-            var compliteSpeedModel = new SpeedModel(speedModel, roadSpeedModel);
+            var compliteSpeedModel = new SpeedModel(speedModelList);
 
             return compliteSpeedModel;
         }

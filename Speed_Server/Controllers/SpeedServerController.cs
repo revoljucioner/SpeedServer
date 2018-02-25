@@ -41,13 +41,6 @@ namespace SpeedServerApi.Controllers
         {
             if (snappedPointsRequests == null)
             {
-                //
-            //    SnappedPointRequest snappedPointRequest111111 = new SnappedPointRequest
-            //    {
-            //        Location = new Location {latitude = 10, longitude = 15},
-            //        time = DateTime.Parse("2018-02-18T03:00:00.0000000+02:00")
-            //};
-                //
                 return BadRequest();
                 //return StatusCode(418);
             }

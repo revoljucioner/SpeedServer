@@ -35,11 +35,11 @@ namespace SpeedServerApi.Models
                 // долгота
                 if (standartPoint.Location.longitude != additionPoint.Location.longitude)
                 {
-                    if ((standartPoint.Location.longitude != null) && (additionPoint.Location.longitude == null))
+                    if ((standartPoint.Location.longitude != 0) && (additionPoint.Location.longitude == 0))
                     {
                         newLocation.longitude = standartPoint.Location.longitude;
                     }
-                    else if ((standartPoint.Location.longitude == null) && (additionPoint.Location.longitude != null))
+                    else if ((standartPoint.Location.longitude == 0) && (additionPoint.Location.longitude != 0))
                     {
                         newLocation.longitude = additionPoint.Location.longitude;
                     }
@@ -55,11 +55,11 @@ namespace SpeedServerApi.Models
                 // широта
                 if (standartPoint.Location.latitude != additionPoint.Location.latitude)
                 {
-                    if ((standartPoint.Location.latitude != null) && (additionPoint.Location.latitude == null))
+                    if ((standartPoint.Location.latitude != 0) && (additionPoint.Location.latitude == 0))
                     {
                         newLocation.latitude = standartPoint.Location.latitude;
                     }
-                    else if ((standartPoint.Location.latitude == null) && (additionPoint.Location.latitude != null))
+                    else if ((standartPoint.Location.latitude == 0) && (additionPoint.Location.latitude != 0))
                     {
                         newLocation.latitude = additionPoint.Location.latitude;
                     }
@@ -76,11 +76,11 @@ namespace SpeedServerApi.Models
 
                 if (standartPoint.Location.elevation != additionPoint.Location.elevation)
                 {
-                    if ((standartPoint.Location.elevation != null) && (additionPoint.Location.elevation == null))
+                    if ((standartPoint.Location.elevation != 0) && (additionPoint.Location.elevation == 0))
                     {
                         newLocation.elevation = standartPoint.Location.elevation;
                     }
-                    else if ((standartPoint.Location.elevation == null) && (additionPoint.Location.elevation != null))
+                    else if ((standartPoint.Location.elevation == 0) && (additionPoint.Location.elevation != 0))
                     {
                         newLocation.elevation = additionPoint.Location.elevation; 
                     }
@@ -97,13 +97,15 @@ namespace SpeedServerApi.Models
 
                 // время
 
+                var nullDateTime = DateTime.Parse("1/1/0001 12:00:00 AM");
+
                 if (standartPoint.time!= additionPoint.time)
                 {
-                    if ((standartPoint.time != null)&&(additionPoint.time==null))
+                    if ((standartPoint.time != nullDateTime) &&(additionPoint.time== nullDateTime))
                     {
                         newPoint.time = standartPoint.time;
                     }
-                    else if ((standartPoint.time == null) && (additionPoint.time != null))
+                    else if ((standartPoint.time == nullDateTime) && (additionPoint.time != nullDateTime))
                     {
                         newPoint.time = additionPoint.time;
                     }
