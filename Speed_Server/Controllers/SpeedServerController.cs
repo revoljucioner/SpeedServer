@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpeedServerApi.Models;
-using Speed_Server.Controllers;
-using Newtonsoft.Json;
 using Speed_Server.Models;
 
-namespace SpeedServerApi.Controllers
+namespace Speed_Server.Controllers
 {
     [Produces("application/json")]
     [Route("api/SpeedServer")]
