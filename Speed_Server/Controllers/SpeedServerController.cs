@@ -38,7 +38,7 @@ namespace Speed_Server.Controllers
             //{
             SpeedModel speedModel = new SpeedModel(snappedPointsRequests);
 
-            SpeedModel speedModelWithRoads = _googleRoadsApi.FillSpeedModel(speedModel, true);
+            SpeedModel speedModelWithRoads = _googleRoadsApi.FillSpeedModel(speedModel, false);
             SpeedModel speedModelWithRoadsAndEvaluations = _googleEvaluationApi.FillSpeedModel(speedModelWithRoads);
             //fullSpeedModel.RemoveExtraPoints();
             return new ObjectResult(speedModelWithRoadsAndEvaluations);
