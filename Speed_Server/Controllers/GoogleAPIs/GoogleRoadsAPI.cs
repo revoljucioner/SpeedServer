@@ -17,7 +17,7 @@ namespace Speed_Server.Controllers
     {
         public GoogleRoadsApi()
         {
-            limitPointPerQuery = 3;
+            limitPointPerQuery = 100;
             GoogleApiKey = "AIzaSyDWhsEa4PkUPwfxQIpMPsPid0rmPXYFdPM";
             urlApi = "https://roads.googleapis.com/v1/snapToRoads?path={0}&interpolate={1}&key={2}";
         }

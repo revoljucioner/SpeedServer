@@ -17,7 +17,7 @@ namespace Speed_Server.Controllers
     {
         public GoogleEvaluationApi()
         {
-            limitPointPerQuery = 3;
+            limitPointPerQuery = 512;
             GoogleApiKey = "AIzaSyC2FZl6lpRYmLqLPB6py-fd_Q9Q6C6AIiQ";
             urlApi = "https://maps.googleapis.com/maps/api/elevation/json?locations={0}&key={1}";
         }
