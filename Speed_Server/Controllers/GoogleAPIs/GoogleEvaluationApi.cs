@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using SpeedServerApi.Models;
 using Newtonsoft.Json;
+using Speed_Server.Extensions;
 using Speed_Server.Models;
 
 namespace Speed_Server.Controllers
@@ -17,7 +18,8 @@ namespace Speed_Server.Controllers
     {
         public GoogleEvaluationApi()
         {
-            limitPointPerQuery = 512;
+            //limitPointPerQuery = 512;
+            limitPointPerQuery = 400;
             GoogleApiKey = "AIzaSyC2FZl6lpRYmLqLPB6py-fd_Q9Q6C6AIiQ";
             urlApi = "https://maps.googleapis.com/maps/api/elevation/json?locations={0}&key={1}";
         }
@@ -34,6 +36,7 @@ namespace Speed_Server.Controllers
             //var locationTime = speedModel.snappedPoints.Select(x => new { x.Location, x.time }).ToArray();
 
             LocationTime[] locationTimeArray = PullLocationTimeArrayFromSpeedModel(speedModel);
+            locationTimeArray.ForEach(i=>i.RoundCoordinats(5));
 
             var groupedLocationTimeByRequest = GroupLocationTimeArrayByQuery(locationTimeArray);
 

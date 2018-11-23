@@ -1,4 +1,6 @@
-﻿namespace Speed_Server.Models
+﻿using System;
+
+namespace Speed_Server.Models
 {
     public class Location
     {
@@ -19,6 +21,12 @@
         {
             string str = latitude + "," + longitude;
             return str;
+        }
+
+        public void RoundCoordinats(int decimals)
+        {
+            latitude = Math.Round(latitude, decimals);
+            longitude = Math.Round(longitude, decimals);
         }
     }
 }
