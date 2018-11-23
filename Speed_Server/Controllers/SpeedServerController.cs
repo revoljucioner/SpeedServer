@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpeedServerApi.Models;
 using Speed_Server.Models;
@@ -13,10 +14,12 @@ namespace Speed_Server.Controllers
         private static HttpClient client = new HttpClient();
         private readonly GoogleRoadsApi _googleRoadsApi;
         private readonly GoogleEvaluationApi _googleEvaluationApi;
+        private readonly IDbController _dbController;
         public SpeedServerController(SpeedServerContext context)
         {
             _googleRoadsApi = new GoogleRoadsApi();
             _googleEvaluationApi = new GoogleEvaluationApi();
+            _dbController = new MsSqlController();
             //_context = context;
 
             //if (_context.SpeedModels.Count() == 0)
@@ -46,7 +49,14 @@ namespace Speed_Server.Controllers
             //catch (Exception e)
             //{
             //    return BadRequest();
-            //}         
+            //}       
+            try
+            {
+                _dbController.SaveSnappedPointRequestsToDb(snappedPointsRequests);
+            }
+            catch (Exception e)
+            {
+            }
         }
     }
 }
