@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpeedServerApi.Models;
@@ -34,15 +35,23 @@ namespace Speed_Server.Controllers
         {
             if (snappedPointsRequests == null)
             {
-                return BadRequest();
+                return BadRequest("Track is empty");
                 //return StatusCode(418);
             }
             //try
             //{
             SpeedModel speedModel = new SpeedModel(snappedPointsRequests);
+            SpeedModel speedModelWithRoadsAndEvaluations;
 
-            SpeedModel speedModelWithRoads = _googleRoadsApi.FillSpeedModel(speedModel, false);
-            SpeedModel speedModelWithRoadsAndEvaluations = _googleEvaluationApi.FillSpeedModel(speedModelWithRoads);
+            try
+            {
+                SpeedModel speedModelWithRoads = _googleRoadsApi.FillSpeedModel(speedModel, false);
+                speedModelWithRoadsAndEvaluations = _googleEvaluationApi.FillSpeedModel(speedModelWithRoads);
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Remote server error, please try again later.");
+            }
             //fullSpeedModel.RemoveExtraPoints();
             return new ObjectResult(speedModelWithRoadsAndEvaluations);
             //}
