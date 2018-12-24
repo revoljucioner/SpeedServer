@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using SpeedServerApi.Models;
 using Speed_Server.Models;
@@ -12,7 +10,6 @@ namespace Speed_Server.Controllers
     public class SpeedServerController : Controller
     {
         private readonly SpeedServerContext _context;
-        private static HttpClient client = new HttpClient();
         private readonly GoogleRoadsApi _googleRoadsApi;
         private readonly GoogleEvaluationApi _googleEvaluationApi;
         public SpeedServerController(SpeedServerContext context)
