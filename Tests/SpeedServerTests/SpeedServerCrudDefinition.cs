@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http;
 using NUnit.Framework;
+using Speed_Server;
+using Speed_Server.Controllers;
 
 namespace Tests.SpeedServerTests
 {
@@ -14,7 +16,9 @@ namespace Tests.SpeedServerTests
         [Test]
         public void SpeedServerApiEmptyTrackBadRequest()
         {
-            WebRequest request = WebRequest.Create(urlRequest);
+            var g = new GoogleEvaluationApi();
+            var t2 = Speed_Server.Configuration.BaseUrl;
+            WebRequest request = WebRequest.Create("sdsd");
             WebResponse response = request.GetResponse();
         }
     }
