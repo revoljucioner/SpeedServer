@@ -14,9 +14,14 @@ namespace Tests.Environment
         static App()
         {
             var config = (Configuration)ConfigurationManager.GetSection("Configuration");
+            //
+            var ttt = ConfigurationManager.AppSettings;
+            var tttc = ttt.Count;
+            //
             config.Environment = GetEnvironmentByName(config.EnvironmentName);
             App.Configuration = config;
         }
+
         private static Environment GetEnvironmentByName(EnvironmentName environmentName)
         {
             var environmentConfigPath = Path.Combine(PathHelper.GetProjectPath(), "env.json");
