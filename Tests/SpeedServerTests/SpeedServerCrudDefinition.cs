@@ -17,7 +17,6 @@ namespace Tests.SpeedServerTests
         public void SpeedServerApiEmptyTrackBadRequest()
         {
             var g = new GoogleEvaluationApi();
-            var t2 = Speed_Server.Configuration.BaseUrl;
             WebRequest request = WebRequest.Create("sdsd");
             WebResponse response = request.GetResponse();
         }

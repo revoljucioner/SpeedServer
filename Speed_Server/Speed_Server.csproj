@@ -13,10 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Configuration" Version="0.2.0-beta13" />
+    <PackageReference Include="Configuration" Version="0.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
