@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Speed_Server.Helpers
+namespace Tests.Helpers
 {
     public static class PathHelper
     {

@@ -1,8 +1,6 @@
-using System.Net;
-using System.Net.Http;
+using System.Threading.Tasks;
 using NUnit.Framework;
-using Speed_Server;
-using Speed_Server.Controllers;
+using Tests.Steps;
 
 namespace Tests.SpeedServerTests
 {
@@ -14,11 +12,10 @@ namespace Tests.SpeedServerTests
         }
 
         [Test]
-        public void SpeedServerApiEmptyTrackBadRequest()
+        public async Task SpeedServerApiEmptyTrackStatusOk()
         {
-            var g = new GoogleEvaluationApi();
-            WebRequest request = WebRequest.Create("sdsd");
-            WebResponse response = request.GetResponse();
+            var speedServerSteps = new SpeedServerSteps();
+            var httpResponseMessage = await speedServerSteps.PostSpeedServerApiGetResponse("[\r\n  {\r\n    \"location\": {\r\n      \"latitude\": -35.2807341,\r\n      \"longitude\": 149.1291511\r\n    },\r\n    \"time\": \"2018-02-18T01:00:00.0000000+00:00\"\r\n  },\r\n  {\r\n    \"location\": {\r\n      \"latitude\": -35.2807342,\r\n      \"longitude\": 149.1291512\r\n    },\r\n    \"time\": \"2018-02-18T01:01:00.0000000+00:00\"\r\n  }]");
         }
     }
 }

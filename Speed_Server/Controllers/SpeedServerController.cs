@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using SpeedServerApi.Models;
 using Speed_Server.Models;
 
 namespace Speed_Server.Controllers
@@ -9,10 +8,9 @@ namespace Speed_Server.Controllers
     [Route("api/SpeedServer")]
     public class SpeedServerController : Controller
     {
-        private readonly SpeedServerContext _context;
         private readonly GoogleRoadsApi _googleRoadsApi;
         private readonly GoogleEvaluationApi _googleEvaluationApi;
-        public SpeedServerController(SpeedServerContext context)
+        public SpeedServerController()
         {
             _googleRoadsApi = new GoogleRoadsApi();
             _googleEvaluationApi = new GoogleEvaluationApi();

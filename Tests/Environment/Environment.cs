@@ -1,4 +1,4 @@
-﻿namespace Speed_Server
+﻿namespace Tests.Environment
 {
     public class Environment
     {

@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Speed_Server
+namespace Tests.Environment
 {
     public abstract class XmlDeserializeConfigSectionHandler : IConfigurationSectionHandler
     {
