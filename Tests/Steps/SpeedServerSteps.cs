@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -9,13 +8,9 @@ using Speed_Server.Models;
 
 namespace Tests.Steps
 {
-    //[Route("api/SpeedServer")]
     public class SpeedServerSteps: BaseSteps
     {
-        public SpeedServerSteps()
-        {
-            Endpoint = "api/SpeedServer";
-        }
+        protected override string Endpoint => "api/SpeedServer";
 
         public async Task<HttpResponseMessage> PostSpeedServerApiGetResponse(string requestStringContent)
         {
