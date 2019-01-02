@@ -1,8 +1,13 @@
-﻿namespace Tests.Environment
+﻿using System.Xml.Serialization;
+
+namespace Tests.Environment
 {
-    public class Configuration : XmlDeserializeConfigSectionHandler
+    [XmlRoot("Configuration")]
+    public class Configuration
     {
+        [XmlElement("EnvironmentName")]
         public EnvironmentName EnvironmentName { get; set; }
+
         public Environment Environment { get; set; }
     }
 }

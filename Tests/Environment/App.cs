@@ -1,6 +1,6 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 using Tests.Helpers;
 
@@ -8,24 +8,33 @@ namespace Tests.Environment
 {
     public class App
     {
-        public static Configuration Configuration { get; set; }
+        private static Configuration _configuration { get; set; }
+        public static string WebConfigPath = Path.Combine(PathHelper.GetProjectPath(), "web.config");
+        public static string EnvConfigPath = Path.Combine(PathHelper.GetProjectPath(), "env.json");
 
-
-        static App()
+        public static Configuration Configuration
         {
-            var config = (Configuration)ConfigurationManager.GetSection("Configuration");
-            //
-            var ttt = ConfigurationManager.AppSettings;
-            var tttc = ttt.Count;
-            //
-            config.Environment = GetEnvironmentByName(config.EnvironmentName);
-            App.Configuration = config;
+            get
+            {
+                if (_configuration == null)
+                {
+                    _configuration = GetConfigurationFromConfigFile();
+                    _configuration.Environment = GetEnvironmentFromConfigFileByName(_configuration.EnvironmentName);
+                }
+                return _configuration;
+            }
         }
 
-        private static Environment GetEnvironmentByName(EnvironmentName environmentName)
+        private static Configuration GetConfigurationFromConfigFile()
         {
-            var environmentConfigPath = Path.Combine(PathHelper.GetProjectPath(), "env.json");
-            var environmentArray = JsonConvert.DeserializeObject<Environment[]>(File.ReadAllText(environmentConfigPath));
+            var stream = File.Open(WebConfigPath, FileMode.Open);
+            var ser = new XmlSerializer(typeof(Configuration));
+            return ser.Deserialize(stream) as Configuration;
+        }
+
+        private static Environment GetEnvironmentFromConfigFileByName(EnvironmentName environmentName)
+        {
+            var environmentArray = JsonConvert.DeserializeObject<Environment[]>(File.ReadAllText(EnvConfigPath));
             return environmentArray.First(i => i.EnvironmentName.Equals(environmentName));
         }
     }

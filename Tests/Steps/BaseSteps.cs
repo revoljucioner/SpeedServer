@@ -6,7 +6,7 @@ namespace Tests.Steps
     public abstract class BaseSteps
     {
         protected static string Endpoint;
-        protected string Url = string.Concat(App.Configuration.Environment.BaseUrl, Endpoint);
+        protected string Url => string.Concat(App.Configuration.Environment.BaseUrl, Endpoint);
 
         private static HttpClient _client;
 
