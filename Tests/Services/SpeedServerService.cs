@@ -1,30 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Speed_Server.Models;
+using Tests.Services;
 
-namespace Tests.Steps
+namespace Tests.Services
 {
-    public class SpeedServerSteps: BaseSteps
+    public class SpeedServerService: BaseService
     {
         protected override string Endpoint => "api/SpeedServer";
 
-        public async Task<HttpResponseMessage> PostSpeedServerApiGetResponse(string requestStringContent)
+        public async Task<HttpResponseMessage> PostSpeedServerApiGetResponse(IEnumerable<SnappedPointRequest> snappedPointsRequestArray)
         {
+            var content = JsonConvert.SerializeObject(snappedPointsRequestArray);
             HttpClient client = GetClient();
             var response = await client.PostAsync(Url,
-                new StringContent(requestStringContent,
+                new StringContent(content,
                     Encoding.UTF8, "application/json"));
 
             return response;
         }
 
-        public async Task<SpeedModel> PostSpeedServerApiAndGetSpeedModel(string requestStringContent)
+        public async Task<SpeedModel> PostSpeedServerApiAndGetSpeedModel(IEnumerable<SnappedPointRequest> snappedPointsRequestArray)
         {
-            var response = await PostSpeedServerApiGetResponse(requestStringContent);
+            var response = await PostSpeedServerApiGetResponse(snappedPointsRequestArray);
 
             if (response.StatusCode != HttpStatusCode.OK)
                 throw new Exception(response.Content.ToString());

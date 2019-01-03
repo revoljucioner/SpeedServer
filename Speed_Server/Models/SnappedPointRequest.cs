@@ -7,12 +7,11 @@ namespace Speed_Server.Models
         public Location Location { get; set; }
         public DateTime time { get; set; }
 
-        public SnappedPointRequest()
-        { }
-
-        public SnappedPointRequest(SnappedPointRequest snappedPointRequest)
+        public SnappedPointRequest(double latitude, double longitude, DateTime _time)
         {
-            this.Location = snappedPointRequest.Location;
+            var location = new Location{latitude = latitude, longitude = longitude};
+            Location = location;
+            time = _time;
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using Tests.Environment;
 
-namespace Tests.Steps
+namespace Tests.Services
 {
-    public abstract class BaseSteps
+    public abstract class BaseService
     {
         protected virtual string Endpoint { get; }
         protected string Url => string.Concat(App.Configuration.Environment.BaseUrl, Endpoint);
