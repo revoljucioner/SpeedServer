@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
-using Tests.Environment;
 
-namespace Tests.Services
+namespace SpeedServer.ConsumersServiceClients.Services
 {
     public abstract class BaseService
     {

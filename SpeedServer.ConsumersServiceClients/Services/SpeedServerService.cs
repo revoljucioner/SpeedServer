@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpeedServer.Models;
 
-namespace Tests.Services
+namespace SpeedServer.ConsumersServiceClients.Services
 {
     public class SpeedServerService: BaseService
     {
