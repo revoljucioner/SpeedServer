@@ -7,6 +7,7 @@ namespace Speed_Server.Controllers
 {
     [Produces("application/json")]
     [Route("api/SpeedServer")]
+    //[Route("api/[controller]")]
     public class SpeedServerController : Controller
     {
         private readonly GoogleRoadsApi _googleRoadsApi;
