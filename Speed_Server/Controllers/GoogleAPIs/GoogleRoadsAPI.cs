@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Models;
 using Newtonsoft.Json;
-using Speed_Server.Controllers.GoogleAPIs;
 using Speed_Server.Extensions;
 using Speed_Server.Models;
 
-namespace Speed_Server.Controllers
+namespace Speed_Server.Controllers.GoogleAPIs
 {
     public class GoogleRoadsApi : GoogleApi
     {

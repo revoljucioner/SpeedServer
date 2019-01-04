@@ -6,8 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Models;
 using Newtonsoft.Json;
-using Speed_Server.Models;
-using Tests.Services;
 
 namespace Tests.Services
 {
