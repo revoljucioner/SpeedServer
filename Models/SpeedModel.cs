@@ -5,7 +5,6 @@ namespace Models
 {
     public class SpeedModel
     {
-        private double EarthRadius = 6371.009;
         public SnappedPointResponse[] snappedPoints { get; set; }
 
         public SpeedModel()
@@ -21,7 +20,7 @@ namespace Models
 
             if (standartSnappedPoints.Length != additionSnappedPoints.Length)
             {
-                throw new Exception("разная длинна дополняеміх моделей");
+                throw new Exception("разная длинна дополняемых моделей");
             }
 
             for (var i=0;i<standartSnappedPoints.Length;i++)
@@ -151,7 +150,7 @@ namespace Models
 
         public SpeedModel(SnappedPointRequest[] snappedPointsRequests)
         {
-            List<SnappedPointResponse> snappedPointResponseList = new List<SnappedPointResponse>();
+            var snappedPointResponseList = new List<SnappedPointResponse>();
 
             foreach (var snappedPointRequest in snappedPointsRequests)
             {
@@ -161,9 +160,9 @@ namespace Models
             this.snappedPoints = snappedPointResponseList.ToArray();
         }
 
-        public SpeedModel(List<SpeedModel> speedModelList)
+        public SpeedModel(IEnumerable<SpeedModel> speedModelList)
         {
-            List<SnappedPointResponse> snappedPointsList = new List<SnappedPointResponse>();
+            var snappedPointsList = new List<SnappedPointResponse>();
 
             foreach (var speedModel in speedModelList)
             {
@@ -173,6 +172,7 @@ namespace Models
             this.snappedPoints = snappedPointsList.ToArray();
         }
 
+        [Obsolete]
         private double DistanceBetweenPoints(Location Point1, Location Point2)
         {
             var Point1Point2Distance = Math.Acos(Math.Sin(Point1.latitude) * Math.Sin(Point2.latitude) + Math.Cos(Point1.latitude) * Math.Cos(Point2.latitude) * Math.Cos(Point1.longitude - Point2.longitude));

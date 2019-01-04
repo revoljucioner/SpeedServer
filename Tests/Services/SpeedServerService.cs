@@ -37,7 +37,7 @@ namespace Tests.Services
             {
                 value = JsonConvert.DeserializeObject<SpeedModel>(contentString);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 throw new Exception("Server return wrong data");
             }
