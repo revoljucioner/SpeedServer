@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Models;
+using SpeedServer.Models;
 using Speed_Server.Models;
 
 namespace Speed_Server.Extensions

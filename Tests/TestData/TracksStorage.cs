@@ -1,5 +1,5 @@
 ﻿using System;
-using Models;
+using SpeedServer.Models;
 
 namespace Tests.TestData
 {

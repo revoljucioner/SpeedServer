@@ -1,4 +1,4 @@
-﻿using Models;
+﻿using SpeedServer.Models;
 
 namespace Speed_Server.Models
 {

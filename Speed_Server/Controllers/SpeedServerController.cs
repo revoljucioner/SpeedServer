@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using SpeedServer.Models;
 using Speed_Server.Controllers.GoogleAPIs;
 
 namespace Speed_Server.Controllers
