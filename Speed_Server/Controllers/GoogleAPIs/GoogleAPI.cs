@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
-using SpeedServerApi.Models;
-using Newtonsoft.Json;
+using Models;
 using Speed_Server.Models;
 
-namespace Speed_Server.Controllers
+namespace Speed_Server.Controllers.GoogleAPIs
 {
     public abstract class GoogleApi
     {

@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading.Tasks;
-using SpeedServerApi.Models;
+using Models;
 using Newtonsoft.Json;
+using Speed_Server.Controllers.GoogleAPIs;
+using Speed_Server.Extensions;
 using Speed_Server.Models;
 
 namespace Speed_Server.Controllers
@@ -61,7 +57,8 @@ namespace Speed_Server.Controllers
                 var responseFromServer = ExecuteQuery(urlRequest);
                 GoogleRoadResponse googleRoadResponse = JsonConvert.DeserializeObject<GoogleRoadResponse>(responseFromServer);
 
-                SpeedModel speedModel = new SpeedModel(googleRoadResponse.snappedPoints);
+                //SpeedModel speedModel = new SpeedModel(googleRoadResponse.snappedPoints);
+                var speedModel = SpeedModelExtensions.FromSnappedPointRoadArray(googleRoadResponse.snappedPoints);
 
                 int previousOriginalElementIndex = 0;
 

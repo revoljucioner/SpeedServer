@@ -1,4 +1,4 @@
-﻿namespace Speed_Server.Models
+﻿namespace Models
 {
     public class LocationWithElevation: Location
     {

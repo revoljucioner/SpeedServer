@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Speed_Server.Models
+namespace Models
 {
     public class Location
     {

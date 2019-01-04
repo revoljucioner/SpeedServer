@@ -1,4 +1,5 @@
 ﻿using System;
+using Models;
 
 namespace Speed_Server.Models
 {

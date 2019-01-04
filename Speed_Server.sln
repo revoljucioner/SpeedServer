@@ -4,8 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Speed_Server", "Speed_Server\Speed_Server.csproj", "{12BBE2E4-7022-489B-A38F-D9971D485678}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A6900335-195A-4918-A42F-3A0808CD1E84} = {A6900335-195A-4918-A42F-3A0808CD1E84}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{91736299-F096-4235-AEFA-B2F0F1A35133}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{91736299-F096-4235-AEFA-B2F0F1A35133}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{A6900335-195A-4918-A42F-3A0808CD1E84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{91736299-F096-4235-AEFA-B2F0F1A35133}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91736299-F096-4235-AEFA-B2F0F1A35133}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91736299-F096-4235-AEFA-B2F0F1A35133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6900335-195A-4918-A42F-3A0808CD1E84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6900335-195A-4918-A42F-3A0808CD1E84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6900335-195A-4918-A42F-3A0808CD1E84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6900335-195A-4918-A42F-3A0808CD1E84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

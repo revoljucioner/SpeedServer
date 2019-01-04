@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Speed_Server.Models
+namespace Models
 {
     public class SpeedModel
     {
@@ -160,32 +160,6 @@ namespace Speed_Server.Models
 
             this.snappedPoints = snappedPointResponseList.ToArray();
         }
-
-
-        public SpeedModel(SnappedPointRoad[] snappedPointsRoad)
-        {
-            List<SnappedPointResponse> snappedPointsRoadList = new List<SnappedPointResponse>();
-
-            foreach (var snappedPointRoad in snappedPointsRoad)
-            {
-                snappedPointsRoadList.Add(new SnappedPointResponse(snappedPointRoad));
-            }
-
-            this.snappedPoints = snappedPointsRoadList.ToArray();
-        }
-
-        public SpeedModel(SnappedPointElevation[] snappedPointsElevation)
-        {
-            List<SnappedPointResponse> snappedPointsRoadList = new List<SnappedPointResponse>();
-
-            foreach (var snappedPointElevation in snappedPointsElevation)
-            {
-                snappedPointsRoadList.Add(new SnappedPointResponse(snappedPointElevation));
-            }
-
-            this.snappedPoints = snappedPointsRoadList.ToArray();
-        }
-
 
         public SpeedModel(List<SpeedModel> speedModelList)
         {

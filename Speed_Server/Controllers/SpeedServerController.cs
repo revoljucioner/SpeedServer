@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Speed_Server.Models;
+using Models;
 
 namespace Speed_Server.Controllers
 {

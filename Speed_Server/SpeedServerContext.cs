@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace SpeedServerApi.Models
+namespace Speed_Server
 {
     public class SpeedServerContext : DbContext
     {

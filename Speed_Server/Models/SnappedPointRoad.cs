@@ -1,4 +1,6 @@
-﻿namespace Speed_Server.Models
+﻿using Models;
+
+namespace Speed_Server.Models
 {
     public class SnappedPointRoad
     {
@@ -9,6 +11,15 @@
         public SnappedPointRoad(Location location)
         {
             this.Location = location;
+        }
+
+        public SnappedPointResponse ToSnappedPointResponse()
+        {
+            var snappedPointResponse = new SnappedPointResponse();
+            snappedPointResponse.Location = new LocationWithElevation(Location);
+            snappedPointResponse.originalIndex = originalIndex;
+            snappedPointResponse.placeId = placeId;
+            return snappedPointResponse;
         }
     }
 }
