@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Speed_Server", "Speed_Serve
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeedServer.Models", "SpeedServer.Models\SpeedServer.Models.csproj", "{A82CC5DA-FF2B-4B48-876B-B8B57B935CE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeedServer.ConsumersServiceClients", "SpeedServer.ConsumersServiceClients\SpeedServer.ConsumersServiceClients.csproj", "{2E5F8CFF-47F3-43CA-843F-7626CF55C896}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{A82CC5DA-FF2B-4B48-876B-B8B57B935CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A82CC5DA-FF2B-4B48-876B-B8B57B935CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A82CC5DA-FF2B-4B48-876B-B8B57B935CE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E5F8CFF-47F3-43CA-843F-7626CF55C896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E5F8CFF-47F3-43CA-843F-7626CF55C896}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E5F8CFF-47F3-43CA-843F-7626CF55C896}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E5F8CFF-47F3-43CA-843F-7626CF55C896}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
