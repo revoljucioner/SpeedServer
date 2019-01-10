@@ -1,4 +1,6 @@
-﻿namespace SpeedServer.Models
+﻿using System;
+
+namespace SpeedServer.Models
 {
     public class LocationWithElevation: Location
     {

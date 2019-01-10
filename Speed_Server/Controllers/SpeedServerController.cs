@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SpeedServer.Models;
 using Speed_Server.Controllers.GoogleAPIs;
@@ -25,7 +26,14 @@ namespace Speed_Server.Controllers
             {
                 return BadRequest("Track is empty");
             }
-            SpeedModel speedModel = new SpeedModel(snappedPointsRequests);
+
+            if (snappedPointsRequests.Any(i => i.Location ==null))
+                return BadRequest("Location cannot be null");
+            if (snappedPointsRequests.Any(i => i.Location.latitude.Equals(0) || i.Location.longitude.Equals(0)))
+                return BadRequest("Latitude and Longitude cannot be 0");
+
+            var speedModel = new SpeedModel(snappedPointsRequests);
+
             SpeedModel speedModelWithRoadsAndEvaluations;
 
             try
