@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace SpeedServer.Models
 {
@@ -7,6 +8,7 @@ namespace SpeedServer.Models
         public double latitude { get; set; }
         public double longitude { get; set; }
 
+        [JsonConstructor]
         public Location()
         {
         }
