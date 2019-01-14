@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 
 namespace SpeedServer.Models
 {
@@ -6,6 +6,7 @@ namespace SpeedServer.Models
     {
         public double elevation { get; set; }
 
+        [JsonConstructor]
         public LocationWithElevation()
         { }
 

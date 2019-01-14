@@ -41,7 +41,7 @@ namespace Speed_Server.Controllers
                 SpeedModel speedModelWithRoads = _googleRoadsApi.FillSpeedModel(speedModel, false);
                 speedModelWithRoadsAndEvaluations = _googleEvaluationApi.FillSpeedModel(speedModelWithRoads);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return BadRequest("Remote server error, please try again later.");
             }
