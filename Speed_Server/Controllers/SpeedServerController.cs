@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using SpeedServer.Core.Controllers.GoogleAPIs;
 using SpeedServer.Models;
-using Speed_Server.Controllers.GoogleAPIs;
 
-namespace Speed_Server.Controllers
+namespace SpeedServer.Core.Controllers
 {
     [Produces("application/json")]
     [Route("api/SpeedServer")]

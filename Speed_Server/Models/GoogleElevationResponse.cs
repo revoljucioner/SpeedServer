@@ -1,4 +1,4 @@
-﻿namespace Speed_Server.Models
+﻿namespace SpeedServer.Core.Models
 {
     public class GoogleElevationResponse
     {

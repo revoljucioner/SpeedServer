@@ -1,7 +1,7 @@
 ﻿using System;
 using SpeedServer.Models;
 
-namespace Speed_Server.Models
+namespace SpeedServer.Core.Models
 {
     public class LocationTime: Location
     {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Speed_Server
+namespace SpeedServer.Core
 {
     public class Startup
     {

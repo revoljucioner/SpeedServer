@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using SpeedServer.Core.Extensions;
+using SpeedServer.Core.Models;
 using SpeedServer.Models;
-using Speed_Server.Extensions;
-using Speed_Server.Models;
 
-namespace Speed_Server.Controllers.GoogleAPIs
+namespace SpeedServer.Core.Controllers.GoogleAPIs
 {
     public class GoogleEvaluationApi : GoogleApi
     {

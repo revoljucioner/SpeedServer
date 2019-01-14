@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Net;
+using SpeedServer.Core.Models;
 using SpeedServer.Models;
-using Speed_Server.Models;
 
-namespace Speed_Server.Controllers.GoogleAPIs
+namespace SpeedServer.Core.Controllers.GoogleAPIs
 {
     public abstract class GoogleApi
     {

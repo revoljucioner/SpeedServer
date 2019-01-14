@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using SpeedServer.Core.Models;
 using SpeedServer.Models;
-using Speed_Server.Models;
 
-namespace Speed_Server.Extensions
+namespace SpeedServer.Core.Extensions
 {
     public static class SpeedModelExtensions
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Speed_Server.Extensions
+namespace SpeedServer.Core.Extensions
 {
     public static class LinqExtensions
     {
